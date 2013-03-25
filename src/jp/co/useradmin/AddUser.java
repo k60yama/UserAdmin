@@ -11,6 +11,9 @@ import java.io.PrintWriter;
 import java.util.Date;
 
 public class AddUser implements User{
+	//＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
+	//各フィールド
+	//＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
 	//ユーザーID管理ファイル
 	private static final String FILE_NAME = "UID/currentUserID.txt";
 	
@@ -19,6 +22,7 @@ public class AddUser implements User{
 	protected String uName;
 	protected int uAge;
 	protected Date uBirthDay;
+	//＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
 	
 	
 	//ユーザー情報取得メイン処理(追加)
@@ -64,12 +68,8 @@ public class AddUser implements User{
 		}finally{
 			//後処理
 			try{
-				if(br != null){
-					br.close();
-				}
-				if(in != null){
-					in.close();
-				}
+				if(br != null){	br.close();}
+				if(in != null){ in.close();}
 			}catch(IOException e){
 				e.printStackTrace();
 			}
@@ -92,12 +92,8 @@ public class AddUser implements User{
 		}finally{
 			//後処理
 			try {
-				if(pw != null){
-					pw.close();
-				}
-				if(out != null){
-					out.close();
-				}
+				if(pw != null){ pw.close();}
+				if(out != null){ out.close();}
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
