@@ -1,6 +1,7 @@
 package jp.co.useradmin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserStoreMain implements UserStore {
@@ -28,7 +29,7 @@ public class UserStoreMain implements UserStore {
 		switch(this._mode){
 		case ADD_MODE:
 			user = new AddUser();					//AddUserインスタンス生成(仮)
-			((AddUser)user).addUserMainProc();		//追加用のユーザー情報取得
+			//((AddUser)user).addUserMainProc();		//追加用のユーザー情報取得
 			break;
 		case UPDATE_MODE:
 			//UpdateUserインスタンス生成(仮)
@@ -48,12 +49,8 @@ public class UserStoreMain implements UserStore {
 	
 	@Override
 	public void createUser(User user) throws IOException {
-		//XMLファイルに書き込む処理
 		AddUser add = (AddUser)user;	//ダウンキャスト
-		System.out.println("ユーザーIDは" + add.uId + "です。");
-		System.out.println("入力されたユーザー名は" + add.uName + "です。");
-		System.out.println("入力されたユーザーの年齢は" + add.uAge + "です。");
-		System.out.println("入力されたユーザーの生年月日は" + add.uBirthDay.toString() + "です。");
+		XMLMainProc.addToXML(add);		//XMLファイルに入力情報を追加
 	}
 
 	@Override
@@ -77,6 +74,12 @@ public class UserStoreMain implements UserStore {
 	public List<User> getUserList() throws IOException {
 		//XMLファイルの全ユーザーを取得し、ユーザーリストを作成する。
 		//変更、削除と一覧参照に用いる
-		return null;
+		List<User> array = new ArrayList<User>();
+		
+		//ShowUserListインスタンス生成
+		ShowUserList uList = new ShowUserList();
+		array.add(uList);
+		
+		return array;
 	}
 }

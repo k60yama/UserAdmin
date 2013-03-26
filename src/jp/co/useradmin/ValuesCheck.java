@@ -1,5 +1,6 @@
 package jp.co.useradmin;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,11 +46,12 @@ public class ValuesCheck {
 	
 	/*
 	 * 日付形式チェックメソッド
-	 * 戻り値：true(日付形式)、false(日付形式以外)
+	 * 戻り値：Date
+	 * nullでない場合：日付形式
+	 * nullの場合：日付形式ではない
 	 */
 	protected static Date isDate(String str){
 		//初期化
-		//boolean isDate = false;
 		Date date = null;
 		
 		//日付形式指定(SimpleDateFormatインスタンス生成)
@@ -89,5 +91,22 @@ public class ValuesCheck {
 			break;
 		}
 		return isModeType;
+	}
+	
+	
+	/*
+	 * XMLファイル存在チェック
+	 * 戻り値:true(有)、false(無)
+	 */
+	protected static boolean isXMLFile(){
+		//初期化
+		boolean isXMLFile = false;
+		
+		//Fileインスタンス生成
+		File file = new File(XMLMainProc.FILE_NAME);
+		if(file.exists()){
+			isXMLFile = true;
+		}
+		return isXMLFile;
 	}
 }

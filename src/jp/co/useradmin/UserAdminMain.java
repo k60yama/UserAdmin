@@ -68,15 +68,16 @@ public class UserAdminMain {
 		//Userインスタンス取得
 		User user = store.getUserInstance();
 		if(user instanceof AddUser){
-			System.out.println("AddUserです");
-			//System.out.println("入力されたユーザー名は" + ((AddUser)user).uName + "です。");
+			//ユーザー追加処理へ
+			((AddUser) user).addUserMainProc();
 			store.createUser(user);
 		}else if(user instanceof UpdateUser){
 			System.out.println("UpdateUserです");
 		}else if(user instanceof DeleteUser){
 			System.out.println("DeleteUserです");
 		}else if(user instanceof ShowUserList){
-			System.out.println("ShowUserListです");
+			//System.out.println("ShowUserListです");
+			((ShowUserList) user).showUserMainProc();
 		}
 	}
 }

@@ -2,30 +2,31 @@ package jp.co.useradmin;
 
 import java.util.Date;
 
+
 public class ShowUserList implements User{
 
+	//ユーザー参照メイン処理
+	protected void showUserMainProc(){
+		System.out.println("ノード数：" + XMLMainProc.getNodeDOMParse("user").getLength());
+	}
+	
 	@Override
 	public String getId() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
 	public int getAge() {
-		// TODO 自動生成されたメソッド・スタブ
 		return 0;
 	}
 
 	@Override
 	public Date getBirthDate() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
-
 }
