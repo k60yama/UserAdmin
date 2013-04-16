@@ -144,8 +144,17 @@ public class ValuesCheck {
 		return index;
 	}
 	
+	
 	/*
-	 * 変更有無チェック
-	 * true : 
+	 * 変更モードチェック
+	 * 戻り値：true(正常値)、false(異常値)
 	 */
+	protected static boolean isUpdateMode(String inputType){
+		//初期化
+		boolean isUpdateMode = false;
+		if(("0".equals(inputType)) || ("1".equals(inputType))){
+			isUpdateMode = true;
+		}
+		return isUpdateMode;
+	}
 }

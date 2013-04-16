@@ -115,6 +115,7 @@ public class AddUser implements User{
 	//ユーザー名取得処理
 	@Override
 	public String getName() {
+		/*
 		//初期化
 		boolean isGetName = true;
 		String userName;
@@ -129,12 +130,15 @@ public class AddUser implements User{
 			}
 		}while(isGetName);
 		return userName;
+		*/
+		return InputOperation.inputGetUserName("追加");
 	}
 
 	
 	//年齢取得処理
 	@Override
 	public int getAge() {
+		/*
 		//初期化
 		boolean isGetAge = true;
 		String userAge;
@@ -154,12 +158,16 @@ public class AddUser implements User{
 			}
 		}while(isGetAge);
 		return Integer.parseInt(userAge);
+		*/
+		String userAge = InputOperation.inputGetUserAge("追加");
+		return Integer.parseInt(userAge);
 	}
 
 	
 	//生年月日取得処理
 	@Override
 	public Date getBirthDate() {
+		/*
 		//初期化
 		boolean isGetBirthDate = true;
 		String userBirthDayStr;
@@ -181,5 +189,7 @@ public class AddUser implements User{
 			}
 		}while(isGetBirthDate);
 		return userBirthDay;
+		*/
+		return InputOperation.inputGetUserBirthDay("追加");
 	}
 }

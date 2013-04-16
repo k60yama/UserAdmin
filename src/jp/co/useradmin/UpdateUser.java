@@ -14,7 +14,7 @@ public class UpdateUser implements User{
 	protected String uId;
 	protected String uName;
 	protected int uAge;
-	protected String uBirthDay;
+	protected Date uBirthDay;
 	
 	//各インスタンス保持
 	private UserStoreMain _us;
@@ -41,9 +41,16 @@ public class UpdateUser implements User{
 		this._su = (ShowUserList)this._us.getUser(index);
 		
 		//ユーザー情報取得
-		this.uId = this.getId();			//ユーザーID
-		this.uName = this.getName();		//ユーザー名
+		this.uId = this.getId();				//ユーザーID
+		this.uName = this.getName();			//ユーザー名
+		this.uAge = this.getAge();				//ユーザー年齢
+		this.uBirthDay = this.getBirthDate();	//ユーザー生年月日
 		
+		//確認
+		System.out.println("ユーザーID =　" + this.uId);
+		System.out.println("ユーザー名 =　" + this.uName);
+		System.out.println("ユーザー年齢 =　" + this.uAge);
+		System.out.println("ユーザー生年月日 =　" + this.uBirthDay);
 		
 		//XML変更処理へ
 		this._us.updateUser(this);
@@ -66,36 +73,63 @@ public class UpdateUser implements User{
 	}
 	*/
 	
+	
+	//ユーザーID取得処理
 	@Override
 	public String getId() {
 		return this._su.uId;
 	}
 
 	
+	//ユーザー名取得処理
 	@Override
 	public String getName() {
+		//初期化
+		String name = this._su.uName;
 		
-		
-		
-		
-		return this._su.uName;
+		//変更モード選択
+		String mode = InputOperation.inputUpdateMode("名前", name);
+		if("0".equals(mode)){
+			//新ユーザー名入力処理
+			name = InputOperation.inputGetUserName("変更");
+		}
+		return name;
 	}
 
 	
+	//ユーザー年齢取得処理
 	@Override
 	public int getAge() {
-		return this._su.uAge;
+		//初期化
+		int age = this._su.uAge;
+		
+		//変更モード選択
+		String mode = InputOperation.inputUpdateMode("年齢", String.valueOf(age));
+		if("0".equals(mode)){
+			//新ユーザー年齢入力処理
+			age = Integer.valueOf(InputOperation.inputGetUserAge("変更"));
+		}
+		return age;
 	}
 
 	
+	//ユーザー生年月日取得処理
 	@Override
 	public Date getBirthDate() {
 		//初期化
 		Date birthday = null;
+		String birthdayStr = String.valueOf(this._su.uBirthDay);
 		try{
 			//SimpleDateFormatインスタンス生成
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			birthday = format.parse(this._su.uBirthDay);
+			
+			//変更モード選択
+			String mode = InputOperation.inputUpdateMode("生年月日", birthdayStr);
+			if("0".equals(mode)){
+				//新ユーザー生年月日入力処理
+				birthdayStr = format.format(InputOperation.inputGetUserBirthDay("変更"));
+			}
+			birthday = format.parse(birthdayStr);		//Date変換
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -10,9 +10,15 @@
     <birthday>1960-12-12</birthday>
   </user>
   
-  <user id="3">
-    <name>tokugawa</name>
-    <age>23</age>
-    <birthday>1192-02-11</birthday>
+  
+  <user id="4">
+    <name>gon</name>
+    <age>12</age>
+    <birthday>1012-01-02</birthday>
+  </user>
+  <user id="5">
+    <name>arino</name>
+    <age>41</age>
+    <birthday>1980-12-12</birthday>
   </user>
 </users>
