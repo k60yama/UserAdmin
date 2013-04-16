@@ -22,16 +22,27 @@ public class AddUser implements User{
 	protected String uName;
 	protected int uAge;
 	protected Date uBirthDay;
+	
+	//UserStoreインスタンス
+	private UserStore _us;
 	//＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
 	
 	
-	//ユーザー情報取得メイン処理(追加)
-	protected void addUserMainProc(){
+	//コンストラクタ
+	protected AddUser(UserStore us){
+		this._us = us;
+	}
+
+	
+	//追加メイン処理
+	protected void addUserMain() throws IOException{
 		this.uName = this.getName();			//名前取得
 		this.uAge = this.getAge();				//年齢取得
 		this.uBirthDay = this.getBirthDate();	//生年月日
 		this.uId = this.getId();				//ユーザーID
+		(this._us).createUser(this);			//XML追加処理へ
 	}
+	
 	
 	//ユーザーID取得処理
 	@Override

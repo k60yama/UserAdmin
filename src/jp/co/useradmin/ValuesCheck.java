@@ -5,11 +5,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 public class ValuesCheck {
 	//モード別フラグ管理
 	private static final int ADD_MODE = 0;
 	private static final int UPDATE_MODE = 1;
-	private static final int DELTE_MODE = 2;
+	private static final int DELETE_MODE = 2;
 	private static final int SHOW_MODE = 3;
 	
 	/*
@@ -83,7 +87,7 @@ public class ValuesCheck {
 		case UPDATE_MODE:
 			isModeType = UserAdminMain.UPDATE_MODE_NAME;
 			break;
-		case DELTE_MODE:
+		case DELETE_MODE:
 			isModeType = UserAdminMain.DELETE_MODE_NAME;
 			break;
 		case SHOW_MODE:
@@ -109,4 +113,39 @@ public class ValuesCheck {
 		}
 		return isXMLFile;
 	}
+	
+	
+	/*
+	 * ユーザーID存在チェック
+	 * 戻り値: String型
+	 * nullでない場合：ユーザーID有
+	 * nullの場合：ユーザーID無
+	 */
+	protected static String isUserId(String chkId){
+		//初期化
+		String index = null;
+		Element element = null;
+		String id = null;
+		
+		try{
+			Document doc = XMLMainProc.getDocumentDOMParse();
+			NodeList nodes = XMLMainProc.getNodeDOMParse(doc, "user");
+			for(int i=0; i<nodes.getLength(); i++){
+				//付属情報を取得
+				element = (Element)nodes.item(i);
+				id = element.getAttribute("id");
+				if(id.equals(chkId)){
+					index = String.valueOf(i);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return index;
+	}
+	
+	/*
+	 * 変更有無チェック
+	 * true : 
+	 */
 }

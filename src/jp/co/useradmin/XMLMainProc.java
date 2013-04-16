@@ -18,9 +18,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.xerces.parsers.DOMParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-import org.xml.sax.SAXException;
 
 import com.sun.org.apache.xml.internal.serializer.OutputPropertiesFactory;
 
@@ -45,7 +45,7 @@ public class XMLMainProc {
 	/*
 	 * XML取得処理(DOMパース)
 	 */
-	private static Document getDocumentDOMParse() throws SAXException, IOException{
+	protected static Document getDocumentDOMParse() throws Exception{
 		//DOMParserのインスタンス生成
 		DOMParser parser = new DOMParser();
 		parser.parse(FILE_NAME);		//XMLファイルのパース
@@ -54,18 +54,16 @@ public class XMLMainProc {
 	
 	
 	/*
-	 * ユーザー追加処理
+	 * ユーザー追加処理用
 	 */
-	protected static void addToXML(AddUser add){
+	protected static void addUserInfo(AddUser add){
 		try{
 			//初期化
 			Document doc = null;
 			Element users = null;
 			boolean check = ValuesCheck.isXMLFile();	//XMLファイル存在チェック
 			
-			/*
-			 * root要素<users>タグを追加
-			 */			
+			//root要素<users>タグを追加
 			if(check){
 				doc = getDocumentDOMParse();			//XMLファイル取得
 				users = doc.getDocumentElement();
@@ -75,16 +73,11 @@ public class XMLMainProc {
 				doc.appendChild(users);
 			}
 			
-			/*
-			 * <users>タグに<user>タグと属性の追加
-			 */
+			//<users>タグに<user>タグと属性の追加
 			Element user = doc.createElement("user");
 			user.setAttribute("id", add.uId);
-			users.appendChild(user);
+			users.insertBefore(user, users.getLastChild());
 			
-			/*
-			 * <user>タグに<name>、<age>、<birthday>タグを追加
-			 */
 			//<name>タグ
 			Element name = doc.createElement("name");							//name要素
 			Text nameTxt = doc.createTextNode(add.uName);						//name要素内のテキスト
@@ -106,9 +99,54 @@ public class XMLMainProc {
 			birthday.appendChild(birthdayTxt);
 			user.appendChild(birthday);
 			
-			/*
-			 * ファイル出力
-			 */
+			//XMLファイル出力
+			exportXMLFile(doc, check);
+		}catch(ParserConfigurationException e){
+			e.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/*
+	 * ユーザー削除処理用
+	 */
+	protected static void deleteUserInfo(String id){
+		//初期化
+		Document doc = null;
+		Element user = null;
+		String uId = null;
+		boolean check = true;
+		
+		//userノード取得
+		try{
+			doc = getDocumentDOMParse();
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("ユーザー削除処理でエラーが発生しました。");
+			return ;
+		}
+		
+		//指定ノード削除処理
+		NodeList nodes = getNodeDOMParse(doc, "user");
+		for(int i=0; i<nodes.getLength(); i++){
+			user = (Element)nodes.item(i);
+			uId = user.getAttribute("id");
+			if(uId.equals(id)){
+				Node parent = user.getParentNode();
+				parent.removeChild(user);
+				exportXMLFile(doc, check);		//XMLファイル出力
+			}
+		}
+	}
+	
+	
+	/*
+	 * XMLファイル形式でエクスポート
+	 */
+	private static void exportXMLFile(Document doc, boolean check){
+		try{	
 			//TransformerFactoryインスタンス取得
 			TransformerFactory tFactory = TransformerFactory.newInstance();
 			
@@ -116,7 +154,8 @@ public class XMLMainProc {
 			Transformer tFormer = tFactory.newTransformer();
 			
 			//プロパティの設定
-			tFormer.setOutputProperty(OutputKeys.INDENT, "yes");							//インデントの有効化
+			tFormer.setOutputProperty(OutputKeys.METHOD, "xml");							//出力形式
+			tFormer.setOutputProperty(OutputKeys.INDENT, "yes");							//改行の有効化
 			tFormer.setOutputProperty(OutputPropertiesFactory.S_KEY_INDENT_AMOUNT, "2");	//インデントの文字数
 			
 			//XMLファイルチェック
@@ -127,10 +166,6 @@ public class XMLMainProc {
 			//FileOutputStreamインスタンス生成
 			FileOutputStream out = new FileOutputStream(FILE_NAME, false);
 			tFormer.transform(new DOMSource(doc), new StreamResult(out));
-		}catch(SAXException e){
-			e.printStackTrace();
-		}catch(ParserConfigurationException e){
-			e.printStackTrace();
 		}catch(TransformerException e){
 			e.printStackTrace();
 		}catch(IOException e){
@@ -142,17 +177,7 @@ public class XMLMainProc {
 	/*
 	 * 指定ノードの取得
 	 */
-	protected static NodeList getNodeDOMParse(String nodeName){
-		//初期化
-		NodeList nList = null;
-		try{
-			Document doc = getDocumentDOMParse();		//Documentノード取得
-			nList = doc.getElementsByTagName(nodeName);	//NodeListの取得
-		}catch(SAXException e){
-			e.printStackTrace();
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		return nList;
+	protected static NodeList getNodeDOMParse(Document doc, String nodeName){
+		return doc.getElementsByTagName(nodeName);
 	}
 }

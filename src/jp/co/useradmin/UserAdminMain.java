@@ -48,36 +48,14 @@ public class UserAdminMain {
 		
 		//各処理モードへ
 		try {
-			modeProcMain(modeName, modeType);
+			//UserStoreMainインスタンス生成
+			UserStoreMain store = new UserStoreMain(modeName, modeType);	
+			store.modeMainProc();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println(modeName + "処理で異常が検知されました。処理を終了します。");
 			return ;	//メソッド強制終了
 		}
-		System.out.println(modeName + "が正常終了しました。");	//処理終了メッセージ表示
-	}
-	
-	
-	/*
-	 * ユーザー操作メイン処理
-	 */
-	private static void modeProcMain(String modeName, int modeType) throws IOException{
-		//UserStoreMainインスタンス生成
-		UserStoreMain store = new UserStoreMain(modeName, modeType);
-		
-		//Userインスタンス取得
-		User user = store.getUserInstance();
-		if(user instanceof AddUser){
-			//ユーザー追加処理へ
-			((AddUser) user).addUserMainProc();
-			store.createUser(user);
-		}else if(user instanceof UpdateUser){
-			System.out.println("UpdateUserです");
-		}else if(user instanceof DeleteUser){
-			System.out.println("DeleteUserです");
-		}else if(user instanceof ShowUserList){
-			//System.out.println("ShowUserListです");
-			((ShowUserList) user).showUserMainProc();
-		}
+		System.out.println(modeName + "を終了します。");		//処理終了メッセージ表示
 	}
 }
